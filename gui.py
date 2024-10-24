@@ -100,7 +100,3 @@ if __name__ == "__main__":
     ex = App()
     ex.show()
     sys.exit(app.exec_())
-
-'''
-VLL7UII5UH6QNFRB
-'''
