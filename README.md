@@ -70,7 +70,7 @@ $ pip install -r requirements.txt
 #### GUI 界面启动
 
 ```bash
-$ python main.py
+$ python gui.py
 ```
 
 GUI 界面允许你启动前端页面，通过点击按钮来控制工具的启动与停止：
@@ -90,7 +90,7 @@ $ python start_gradio.py
 
 - **Python 3.8+**
 - **PyQt5**：用于开发图形用户界面。
-- **Whisper**：OpenAI 开发的语音识别模型。
+- **Gradio**：网页前端工具。
 
 ## 贡献
 
