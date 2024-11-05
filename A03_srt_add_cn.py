@@ -10,6 +10,7 @@ from A03_translate_to_cn import translate_to_chinese
 
 
 def translate_srt(input_srt_file, output_srt_file, language_code):
+    print(f"为了避免过于频繁的访问翻译API导致IP被封, 我强制减低了翻译的速度, 请耐心等待 ...")
     # 读取原始的 SRT 文件
     with open(input_srt_file, 'r', encoding='utf-8') as file:
         srt_content = file.read()

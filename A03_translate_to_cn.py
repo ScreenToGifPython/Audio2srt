@@ -12,6 +12,9 @@ import random
 
 # 定义翻译函数
 def translate_to_chinese(text, raw_language="en"):
+    raw_language = raw_language.lower()
+    if raw_language == 'english':
+        raw_language = 'en'
     print(text.strip())
     # 有道翻译API地址
     if raw_language == "en":
@@ -32,7 +35,7 @@ def translate_to_chinese(text, raw_language="en"):
         cn_data = ""
     print(cn_data)
 
-    # 随机等待1-6秒, 避免请求过于频繁被封IP
+    # 随机等待1-10秒, 避免请求过于频繁被封IP
     time.sleep(random.randint(1, 10))
     return cn_data
 
