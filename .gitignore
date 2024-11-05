@@ -18,3 +18,7 @@ srt_env/
 # 忽略大部分操作系统和 IDE 生成的文件
 .DS_Store
 Thumbs.db
+app_logo.icns
+base.pt
+app_logo.icns
+small.pt
