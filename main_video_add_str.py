@@ -7,6 +7,7 @@ from A06_srt_2_ass import convert_srt_to_ass_with_line_split
 from A07_ass_in_video import embed_ass_subtitles
 
 
+# 视频处理函数
 def process_video(video_file, language_code, whisper_model, cn_fontsize_ratio, eng_fontsize_ratio):
     # 获取视频名称
     main_name = os.path.splitext(os.path.basename(video_file.name))[0]
@@ -47,33 +48,40 @@ def process_video(video_file, language_code, whisper_model, cn_fontsize_ratio, e
         return f"处理过程中出现错误: {e}"
 
 
-# 当前文件夹路径
-current_dir = os.path.dirname(os.path.abspath(__file__))
-whisper_model_list = list()
-# 从当前文件夹中寻找是否存在 'small.pt', 'base.pt', 'large-v3.pt' 文件
-for file_name in ['small.pt', 'base.pt', 'large-v3.pt']:
-    file_path = os.path.join(current_dir, file_name)
-    if os.path.exists(file_path):
-        whisper_model_list.append(file_name)
+# gradio界面函数
+def start_gradio():
+    # 当前文件夹路径
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    whisper_model_list = list()
+    # 从当前文件夹中寻找是否存在 'small.pt', 'base.pt', 'large-v3.pt' 文件
+    for file_name in ['small.pt', 'base.pt', 'large-v3.pt']:
+        file_path = os.path.join(current_dir, file_name)
+        if os.path.exists(file_path):
+            whisper_model_list.append(file_name)
 
-if not whisper_model_list:
-    raise FileNotFoundError("未找到任何 whisper 模型文件，请确保当前目录下存在 small.pt 或 base.pt 或 large-v3.pt 文件")
+    if not whisper_model_list:
+        raise FileNotFoundError(
+            "未找到任何 whisper 模型文件，请确保当前目录下存在 small.pt 或 base.pt 或 large-v3.pt 文件")
 
-# 创建Gradio界面
-iface = gr.Interface(
-    fn=process_video,
-    inputs=[
-        gr.File(label="上传视频", type="filepath"),
-        gr.Dropdown(["English", "Japanese"], label="选择原视频的原始语言", value="English"),
-        gr.Dropdown(whisper_model_list, label="选择Whisper模型", value="large-v3.pt"),
-        gr.Slider(0.01, 0.05, label="中文字幕字体比例", value=0.018),
-        gr.Slider(0.01, 0.05, label="原文字幕字体比例", value=0.018)
-    ],
-    outputs=gr.Video(label="生成的视频预览"),  # 使用gr.Video组件来显示视频
-    title="视频双语字幕生成工具",
-    description="上传视频并设置相关参数，生成带有中文和英文字幕的视频。\n"
-                "为了避免过于频繁的访问翻译API导致IP被封, 我强制减低了翻译的速度, 请耐心等待 ... "
-)
+    # 创建Gradio界面
+    iface = gr.Interface(
+        fn=process_video,
+        inputs=[
+            gr.File(label="上传视频", type="filepath"),
+            gr.Dropdown(["English", "Japanese"], label="选择原视频的原始语言", value="English"),
+            gr.Dropdown(whisper_model_list, label="选择Whisper模型", value="large-v3.pt"),
+            gr.Slider(0.01, 0.05, label="中文字幕字体比例", value=0.018),
+            gr.Slider(0.01, 0.05, label="原文字幕字体比例", value=0.018)
+        ],
+        outputs=gr.Video(label="生成的视频预览"),  # 使用gr.Video组件来显示视频
+        title="视频双语字幕生成工具",
+        description="上传视频并设置相关参数，生成带有中文和英文字幕的视频。\n"
+                    "为了避免过于频繁的访问翻译API导致IP被封, 我强制减低了翻译的速度, 请耐心等待 ... "
+    )
 
-# # 启动Gradio界面
-iface.launch(inbrowser=True)
+    # 启动Gradio界面
+    iface.launch(inbrowser=True)
+
+
+if __name__ == '__main__':
+    start_gradio()
