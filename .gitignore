@@ -24,3 +24,6 @@ app_logo.icns
 small.pt
 app_logo.icns
 flagged/log.csv
+whisper_models/medium.pt
+whisper_models/large-v3.pt
+app_logo.icns

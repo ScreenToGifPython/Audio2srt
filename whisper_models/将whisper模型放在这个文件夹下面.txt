@@ -1,0 +1,10 @@
+将whisper模型放在这个文件夹下面
+
+你可以在百度网盘下载whisper模型的权重文件，链接如下：
+链接: https://pan.baidu.com/s/1USO2f-Tf3ygwkTJHaFqnbA?pwd=navp 提取码: navp
+
+目前网盘中只提供四种模型权重:
+    1. base.pt  速度:~7x
+    2. small.pt  速度:~4x
+    3. medium.pt  速度:~2x
+    4. large-v3.pt  速度:1x

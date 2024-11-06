@@ -6,11 +6,17 @@ from A03_srt_add_cn import translate_srt
 from A06_srt_2_ass import convert_srt_to_ass_with_line_split
 from A07_ass_in_video import embed_ass_subtitles
 
+# 当前文件夹路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
 
 # 视频处理函数
-def process_video(video_file, language_code, whisper_model, cn_fontsize_ratio, eng_fontsize_ratio):
+def process_video(video_file, language_code, whisper_model, cn_fontsize_ratio, eng_fontsize_ratio, delete_temp_files):
     # 获取视频名称
     main_name = os.path.splitext(os.path.basename(video_file.name))[0]
+    # whisper_model 路径
+    whisper_model_folder = os.path.join(current_dir, "whisper_models")
+    whisper_model = os.path.join(whisper_model_folder, whisper_model)
 
     # 临时文件路径
     the_audio_path = f"{main_name}.mp3"
@@ -36,11 +42,12 @@ def process_video(video_file, language_code, whisper_model, cn_fontsize_ratio, e
         # 嵌入字幕到视频中
         embed_ass_subtitles(video_file.name, the_ass_path, the_output_video_path)
 
-        # 删除临时文件
-        os.remove(the_audio_path)
-        os.remove(the_srt_path)
-        os.remove(the_srt_translated_path)
-        os.remove(the_ass_path)
+        # 删除临时文件（根据用户选择）
+        if delete_temp_files:
+            os.remove(the_audio_path)
+            os.remove(the_srt_path)
+            os.remove(the_srt_translated_path)
+            os.remove(the_ass_path)
 
         return the_output_video_path  # 返回视频路径用于预览
 
@@ -50,15 +57,14 @@ def process_video(video_file, language_code, whisper_model, cn_fontsize_ratio, e
 
 # gradio界面函数
 def start_gradio():
-    # 当前文件夹路径
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # 从whisper_models文件夹中寻找是否存在 .pt 文件
+    whisper_model_folder = os.path.join(current_dir, "whisper_models")
     whisper_model_list = list()
-    # 从当前文件夹中寻找是否存在 'small.pt', 'base.pt', 'large-v3.pt' 文件
-    for file_name in ['small.pt', 'base.pt', 'large-v3.pt']:
-        file_path = os.path.join(current_dir, file_name)
-        if os.path.exists(file_path):
+    for file_name in os.listdir(whisper_model_folder):
+        if file_name.endswith(".pt"):
             whisper_model_list.append(file_name)
 
+    # 检查是否找到模型文件, 如果没有则报错
     if not whisper_model_list:
         raise FileNotFoundError(
             "未找到任何 whisper 模型文件，请确保当前目录下存在 small.pt 或 base.pt 或 large-v3.pt 文件")
@@ -71,7 +77,8 @@ def start_gradio():
             gr.Dropdown(["English", "Japanese"], label="选择原视频的原始语言", value="English"),
             gr.Dropdown(whisper_model_list, label="选择Whisper模型", value="large-v3.pt"),
             gr.Slider(0.01, 0.05, label="中文字幕字体比例", value=0.018),
-            gr.Slider(0.01, 0.05, label="原文字幕字体比例", value=0.018)
+            gr.Slider(0.01, 0.05, label="原文字幕字体比例", value=0.018),
+            gr.Checkbox(label="是否删除临时文件", value=True)
         ],
         outputs=gr.Video(label="生成的视频预览"),  # 使用gr.Video组件来显示视频
         title="视频双语字幕生成工具",
