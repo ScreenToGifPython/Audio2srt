@@ -6,8 +6,15 @@
 @Descriptions: 
 """
 import requests
-import time
 import random
+import time
+import re
+
+
+def remove_symbols_and_spaces(input_string):
+    # 使用正则表达式去除所有非字母数字字符，包括空格
+    cleaned_string = re.sub(r'\W+', '', input_string)
+    return cleaned_string
 
 
 # 定义翻译函数
@@ -27,10 +34,16 @@ def translate_to_chinese(text, raw_language="en"):
     data = response.json()
 
     # 从返回结果中提取翻译内容
+    cn_data = ""
     if 'fanyi' in data and 'tran' in data['fanyi']:
         cn_data = data['fanyi']['tran']
-    elif data['web_trans']['web-translation'][0]['trans'][0]['value']:
-        cn_data = data['web_trans']['web-translation'][0]['trans'][0]['value']
+    elif 'web_trans' in data:
+        for you_dao_data in data['web_trans']['web-translation']:
+            if remove_symbols_and_spaces(you_dao_data['key'].lower()) == remove_symbols_and_spaces(text.strip().lower()):
+                cn_data = you_dao_data['trans'][0]['value']
+                break
+    elif 'ec' in data and cn_data == "":
+        cn_data = data['ec']['word'][0]['trs'][0]['tr'][0]['l']['i'][0]
     else:
         cn_data = ""
     print(cn_data)
@@ -46,9 +59,7 @@ def translate_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
         for line in lines:
-            print(line.strip())
             cn_txt = translate_to_chinese(line)
-            print(cn_txt)
             cn_result.append(cn_txt)
     return cn_result
 
@@ -67,20 +78,20 @@ def translate_text_main(input_file, output_file):
 
 
 if __name__ == '__main__':
-    # from A02_whisper_model import transcribe_audio, split_sentences, save_sentences_to_txt
-    # the_en_file = "output_en.txt"  # 语言识别后的英文文件
-    # the_cn_file = "output_cn.txt"  # 翻译后的中文文件
-    #
-    # the_audio_file = "gpu.mp3"
-    # the_language_code = "en"
-    #
+    from A02_whisper_model import transcribe_audio, split_sentences, save_sentences_to_txt
+
+    the_en_file = "Lecture_1_split.txt"  # 语言识别后的英文文件
+    the_cn_file = "Lecture_1_split_cn.txt"  # 翻译后的中文文件
+
+    the_audio_file = "gpu.mp3"
+    the_language_code = "en"
+
     # # 识别语音
     # the_text = transcribe_audio(the_audio_file, the_language_code)
     # print(the_text)
     # # 分割文本为句子并保存
     # the_sentences = split_sentences(the_text)
     # save_sentences_to_txt(the_sentences, the_en_file)
-    # # 翻译文本为中文
-    # translate_text_main(the_en_file, the_cn_file)
 
-    print(translate_to_chinese("君は負けず嫌 君がMy boy 夢を叶えて", "japanese"))
+    # 翻译文本为中文
+    translate_text_main(the_en_file, the_cn_file)

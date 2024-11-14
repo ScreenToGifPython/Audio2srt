@@ -6,6 +6,7 @@
 @Descriptions: 
 """
 from A02_whisper_to_srt import transcribe_and_generate_srt
+from A03_srt_add_cn import translate_srt
 
 import os
 import re
@@ -147,6 +148,7 @@ def get_audio_duration(wav_file):
         '-of', 'csv=p=0'
     ]
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    print(result)
     duration = float(result.stdout.strip())
     return duration
 
@@ -187,26 +189,27 @@ def generate_video(wav_file, output_file, ass_file):
 
 
 if __name__ == '__main__':
-    main_name = "期权1"
+    main_name = "期权3"
     the_audio_file = f"/Users/chenjunming/Downloads/ChatTTS-main/{main_name}.wav"
     the_srt_output_file = f"{main_name}.srt"
     the_output_file = f"{main_name}_output.mp4"
     the_ass_file = f'{main_name}.ass'
     wrapped_ass_file = f'{main_name}_wrapped.ass'
+    whisper_model = 'whisper_models/large-v3.pt'
 
     # # 生成字幕
-    # transcribe_and_generate_srt(the_audio_file, the_srt_output_file, language='Chinese', whisper_model='large-v3.pt')
+    # transcribe_and_generate_srt(the_audio_file, the_srt_output_file, language='Chinese', whisper_model=whisper_model)
     #
     # # 将 SRT 字幕转换为 ASS 字幕
     # srt_to_ass(the_srt_output_file, the_ass_file)
-
-    # 将 ASS 字幕智能换行
-    wrap_main(input_file=the_ass_file, output_file=wrapped_ass_file, max_len=12)
+    #
+    # # 将 ASS 字幕智能换行
+    # wrap_main(input_file=the_ass_file, output_file=wrapped_ass_file, max_len=12)
 
     # 生成视频
     generate_video(the_audio_file, the_output_file, wrapped_ass_file)
 
-    # 删除字幕文件
-    os.remove(the_srt_output_file)
-    os.remove(the_ass_file)
-    os.remove(wrapped_ass_file)
+    # # 删除字幕文件
+    # os.remove(the_srt_output_file)
+    # os.remove(the_ass_file)
+    # os.remove(wrapped_ass_file)

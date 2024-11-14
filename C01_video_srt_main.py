@@ -16,13 +16,13 @@ import os
 if __name__ == '__main__':
     ''' 主要可选参数 '''
     # 主文件名称
-    main_name = "dace_girl"
+    main_name = "ubc_words"
     # 音频的语音类型, 用于whisper识别语音
     language_code = "English"  # "japanese" or "Chinese" or "English"
     # 选择whisper模型
-    whisper_model = 'large-v3.pt'  # small.pt, base.pt, large-v3.pt 三种类型模型可选
+    whisper_model = 'whisper_models/large-v3.pt'  # small.pt, base.pt, large-v3.pt 三种类型模型可选
     # 输入视频路径
-    the_video_path = f"{main_name}.mp4"
+    the_video_path = f"/Users/chenjunming/Desktop/ubc.mov"
     # 输出视频路径
     the_output_video_path = f"{main_name}_output.mp4"
     # 中文字幕占屏幕高度的比率
@@ -38,35 +38,35 @@ if __name__ == '__main__':
     # 翻译后的srt文件路径 (临时文件)
     the_srt_translated_path = f"{main_name}_translated_subtitles.srt"
     # 生成ass字幕文件路径 (临时文件)
-    the_ass_path = f"{main_name}_translated_subtitles.ass"
+    the_ass_path = f"/Users/chenjunming/Desktop/Audio2srt/ubc_words.ass"
 
-    ''' 功能函数 '''
-    # 提取音频
-    extract_audio_from_video(the_video_path, the_audio_path)
-    print(f"音频已提取: {the_audio_path}")
-
-    # 音频识别文字
-    transcribe_and_generate_srt(the_audio_path, the_srt_path, language_code,
-                                whisper_model)
-    print(f"原文字幕已生成: {the_srt_path}")
-
-    # srt添加中文翻译
-    translate_srt(the_srt_path, the_srt_translated_path, language_code)
-    print(f"中英文字幕已生成: {the_srt_translated_path}")
-
-    # 生成ASS字幕文件
-    convert_srt_to_ass_with_line_split(the_srt_translated_path, the_ass_path, the_video_path,
-                                       eng_fontsize_ratio=eng_fontsize_ratio,
-                                       cn_fontsize_ratio=cn_fontsize_ratio)
-    print(f"ASS字幕已生成: {the_ass_path}")
+    # ''' 功能函数 '''
+    # # 提取音频
+    # extract_audio_from_video(the_video_path, the_audio_path)
+    # print(f"音频已提取: {the_audio_path}")
+    #
+    # # 音频识别文字
+    # transcribe_and_generate_srt(the_audio_path, the_srt_path, language_code,
+    #                             whisper_model)
+    # print(f"原文字幕已生成: {the_srt_path}")
+    #
+    # # srt添加中文翻译
+    # translate_srt(the_srt_path, the_srt_translated_path, language_code)
+    # print(f"中英文字幕已生成: {the_srt_translated_path}")
+    #
+    # # 生成ASS字幕文件
+    # convert_srt_to_ass_with_line_split(the_srt_translated_path, the_ass_path, the_video_path,
+    #                                    eng_fontsize_ratio=eng_fontsize_ratio,
+    #                                    cn_fontsize_ratio=cn_fontsize_ratio)
+    # print(f"ASS字幕已生成: {the_ass_path}")
 
     # 嵌入字幕到视频中
     embed_ass_subtitles(the_video_path, the_ass_path, the_output_video_path)
     print(f"视频已生成: {the_output_video_path}")
 
-    ''' 删除临时文件 '''
-    os.remove(the_audio_path)
-    os.remove(the_srt_path)
-    os.remove(the_srt_translated_path)
-    os.remove(the_ass_path)
-    print("所有临时文件已删除")
+    # ''' 删除临时文件 '''
+    # os.remove(the_audio_path)
+    # os.remove(the_srt_path)
+    # os.remove(the_srt_translated_path)
+    # os.remove(the_ass_path)
+    # print("所有临时文件已删除")

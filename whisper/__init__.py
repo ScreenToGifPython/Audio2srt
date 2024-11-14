@@ -132,7 +132,6 @@ def load_model(
     if download_root is None:
         default = os.path.join(os.path.expanduser("~"), ".cache")
         download_root = os.path.join(os.getenv("XDG_CACHE_HOME", default), "whisper")
-        print(download_root)
 
     if os.path.isfile(name):
         checkpoint_file = open(name, "rb").read() if in_memory else name
