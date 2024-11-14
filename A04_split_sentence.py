@@ -198,4 +198,4 @@ def process_file(input_file, output_file, max_length=50, min_length=3):
 
 
 if __name__ == '__main__':
-    process_file('output.txt', 'output_processed.txt', 50, 3)
+    pass

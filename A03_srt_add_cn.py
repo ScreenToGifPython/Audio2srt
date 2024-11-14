@@ -37,7 +37,4 @@ def translate_srt(input_srt_file, output_srt_file, language_code):
 
 
 if __name__ == '__main__':
-    the_input_srt_file = "cpu_vs_gpu_subtitles.srt"  # 输入的 SRT 文件路径
-    the_output_srt_file = "cpu_vs_gpu_subtitles_translated.srt"  # 输出的翻译后 SRT 文件路径
-    translate_srt(the_input_srt_file, the_output_srt_file)
-    print(f"翻译后的 SRT 文件已生成: {the_output_srt_file}")
+    pass

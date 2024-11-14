@@ -79,27 +79,4 @@ def save_sentences_to_txt(sentences, file_path):
 
 
 if __name__ == '__main__':
-    from A01_get_audio_from_video import extract_audio_from_video
-
-    the_video_path = "/Users/chenjunming/Downloads/you-get-develop/MIT_open_cources/Lecture_1.mp4"  # 输入视频路径
-    the_audio_output_path = "Lecture_1.mp3"  # 输出音频路径
-    the_language_code = "en"
-    the_sentence_output_path = "Lecture_1.txt"
-    the_output_file = "Lecture_1_split.txt"
-    model_path = "/Users/chenjunming/Desktop/Audio2srt/whisper_models/large-v3.pt"
-
-    # # 从视频中提取音频
-    # extract_audio_from_video(the_video_path, the_audio_output_path)
-    #
-    # # 识别音频
-    # the_text = transcribe_audio(the_audio_output_path, the_language_code, model_path)
-    # print(the_text)
-    # # 保存txt数据到 the_sentence_output_path
-    # with open(the_sentence_output_path, 'w', encoding='utf-8') as f:
-    #     f.write(the_text)
-
-    with open(the_sentence_output_path, 'r', encoding='utf-8') as f:
-        the_text = f.read()
-    # 分割文本为句子
-    the_sentences = split_sentences(the_text)
-    save_sentences_to_txt(the_sentences, the_output_file)
+    pass

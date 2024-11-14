@@ -3,7 +3,7 @@
 @File: C01_video_srt_main_aeneas.py
 @Modify Time: 2024/11/3 19:00       
 @Author: Kevin-Chen
-@Descriptions: 
+@Descriptions: 基于 aeneas 的字幕对齐
 """
 
 from A01_get_audio_from_video import extract_audio_from_video
@@ -21,13 +21,9 @@ if __name__ == '__main__':
     the_ass_path = f"{main_name}_translated_subtitles.ass"
     the_output_video_path = f"{main_name}_output.mp4"
 
-    # # 从YouTube下载视频
-    #
     # 提取音频
     extract_audio_from_video(the_video_path, the_audio_path)
     print(f"音频已提取: {the_audio_path}")
     # 音频识别文字
     transcribe_and_generate_srt(the_audio_path, the_srt_path)
     print(f"英文字幕已生成: {the_srt_path}")
-    # 翻译字幕
-

@@ -35,12 +35,4 @@ def embed_bilingual_subtitles(video_file, subtitle_file, output_video_file, font
 
 
 if __name__ == '__main__':
-    the_video_file = "cpu_vs_gpu.mp4"  # 输入视频文件
-    the_subtitle_file = "cpu_vs_gpu_subtitles_translated.srt"  # 双语 SRT 文件
-    the_output_video_file = "cpu_vs_gpu_subtitles_1.mp4"  # 输出视频文件
-
-    # 嵌入双语字幕并生成视频
-    embed_bilingual_subtitles(
-        the_video_file, the_subtitle_file, the_output_video_file,
-        font="Arial", fontsize_ratio=0.05, color="FFFFFF", stroke_color="000000", stroke_width=1
-    )
+    pass

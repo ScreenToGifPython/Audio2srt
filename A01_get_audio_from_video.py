@@ -21,6 +21,4 @@ def extract_audio_from_video(video_path, audio_output_path):
 
 
 if __name__ == '__main__':
-    the_video_path = "cpu_vs_gpu.mp4"  # 输入视频路径
-    the_audio_output_path = "cpu_vs_gpu.mp3"  # 输出音频路径
-    extract_audio_from_video(the_video_path, the_audio_output_path)
+    pass

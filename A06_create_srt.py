@@ -27,8 +27,4 @@ def generate_srt(audio_file, text_file, srt_output_file):
 
 
 if __name__ == '__main__':
-    the_audio_file = "gpu.mp3"  # 音频文件路径
-    the_text_file = "output_processed.txt"  # 已处理的文本文件路径
-    the_srt_output_file = "output_subtitles.srt"  # 输出 SRT 文件路径
-    generate_srt(the_audio_file, the_text_file, the_srt_output_file)
-    print(f"SRT 文件已生成: {the_srt_output_file}")
+    pass

@@ -78,20 +78,4 @@ def translate_text_main(input_file, output_file):
 
 
 if __name__ == '__main__':
-    from A02_whisper_model import transcribe_audio, split_sentences, save_sentences_to_txt
-
-    the_en_file = "Lecture_1_split.txt"  # 语言识别后的英文文件
-    the_cn_file = "Lecture_1_split_cn.txt"  # 翻译后的中文文件
-
-    the_audio_file = "gpu.mp3"
-    the_language_code = "en"
-
-    # # 识别语音
-    # the_text = transcribe_audio(the_audio_file, the_language_code)
-    # print(the_text)
-    # # 分割文本为句子并保存
-    # the_sentences = split_sentences(the_text)
-    # save_sentences_to_txt(the_sentences, the_en_file)
-
-    # 翻译文本为中文
-    translate_text_main(the_en_file, the_cn_file)
+    pass

@@ -210,4 +210,4 @@ def process_files(english_original_file, english_processed_file, chinese_origina
 
 
 if __name__ == '__main__':
-    process_files('output.txt', 'output_processed.txt', 'output_cn.txt', 'output_cn_processed.txt')
+    pass

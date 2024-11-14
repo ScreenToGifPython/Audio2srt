@@ -82,9 +82,4 @@ def convert_srt_to_ass_with_line_split(input_srt_file, output_ass_file, video_fi
 
 
 if __name__ == '__main__':
-    the_input_srt_file = "cpu_vs_gpu_translated_subtitles.srt"  # 输入的 SRT 文件
-    the_output_ass_file = "cpu_vs_gpu_translated_subtitles.ass"  # 输出的 ASS 文件
-    the_video_file = "cpu_vs_gpu.mp4"  # 视频文件
-
-    # 转换为 ASS 文件并设置不同的样式，字体大小根据视频高度动态调整
-    convert_srt_to_ass_with_line_split(the_input_srt_file, the_output_ass_file, the_video_file)
+    pass

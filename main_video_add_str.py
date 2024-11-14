@@ -1,5 +1,5 @@
-import gradio as gr
 import os
+import gradio as gr
 from A01_get_audio_from_video import extract_audio_from_video
 from A02_whisper_to_srt import transcribe_and_generate_srt
 from A03_srt_add_cn import translate_srt

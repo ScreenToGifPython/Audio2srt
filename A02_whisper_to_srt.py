@@ -47,10 +47,4 @@ def transcribe_and_generate_srt(audio_file, srt_output_file, language='en', whis
 
 
 if __name__ == '__main__':
-    the_audio_file = "cpu_vs_gpu.mp3"
-    the_srt_output_file = "cpu_vs_gpu_subtitles.srt"
-
-    # 使用 Whisper 生成 SRT 文件
-    transcribe_and_generate_srt(the_audio_file, the_srt_output_file)
-
-    print(f"SRT 文件已生成: {the_srt_output_file}")
+    pass

@@ -76,9 +76,4 @@ def get_video(url, output_dir, output_filename=None):
 
 
 if __name__ == '__main__':
-    # 设置下载链接和下载目录
-    the_url = "https://www.youtube.com/watch?v=umHhY6rWCxE"
-    the_output_dir = "/Users/chenjunming/Desktop/Audio2srt/download_audio"
-    the_file_name = "New_AI_Animation"
-    # 开始下载
-    get_video(the_url, the_output_dir, the_file_name)
+    pass
