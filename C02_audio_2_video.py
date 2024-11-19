@@ -135,6 +135,8 @@ def wrap_main(input_file="subtitles.ass", output_file="wrapped_subtitles.ass", m
         if line.type == 'Dialogue':
             new_text = wrap_text(line.text, max_len)
             line.text = new_text
+    # 修改第一条字幕的开始时间
+    subs[0].start = 1000
     subs.save(output_file, encoding='utf-8')
 
 
@@ -201,14 +203,18 @@ if __name__ == '__main__':
     #
     # # 将 SRT 字幕转换为 ASS 字幕
     # srt_to_ass(the_srt_output_file, the_ass_file)
-    #
-    # # 将 ASS 字幕智能换行
-    # wrap_main(input_file=the_ass_file, output_file=wrapped_ass_file, max_len=12)
 
-    # 生成视频
-    generate_video(the_audio_file, the_output_file, wrapped_ass_file)
+    # 将 ASS 字幕智能换行
+    wrap_main(input_file=the_ass_file, output_file=wrapped_ass_file, max_len=12)
+
+    # # 生成视频
+    # generate_video(the_audio_file, the_output_file, wrapped_ass_file)
 
     # # 删除字幕文件
     # os.remove(the_srt_output_file)
     # os.remove(the_ass_file)
     # os.remove(wrapped_ass_file)
+
+
+'''
+'''
