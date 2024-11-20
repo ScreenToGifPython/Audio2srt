@@ -139,6 +139,11 @@ def wrap_main(input_file="subtitles.ass", output_file="wrapped_subtitles.ass", m
     subs[0].start = 1000
     subs.save(output_file, encoding='utf-8')
 
+    # 读取保存的文件内容并返回
+    with open(output_file, "r", encoding="utf-8") as f:
+        file_content = f.read()
+    return file_content
+
 
 def get_audio_duration(wav_file):
     cmd = [
@@ -187,34 +192,32 @@ def generate_video(wav_file, output_file, ass_file):
 
     # 删除临时文件,黑幕视频
     os.remove(video_file)
+    return output_file
 
 
 if __name__ == '__main__':
-    main_name = "资产配置协方差矩阵"
-    the_audio_file = f"/Users/chenjunming/Downloads/ChatTTS-main/{main_name}.wav"
-    the_srt_output_file = f"{main_name}.srt"
-    the_output_file = f"{main_name}_output.mp4"
-    the_ass_file = f'{main_name}.ass'
-    wrapped_ass_file = f'{main_name}_wrapped.ass'
-    whisper_model = 'whisper_models/large-v3.pt'
-
+    # main_name = "资产配置协方差矩阵"
+    # the_audio_file = f"/Users/chenjunming/Downloads/ChatTTS-main/{main_name}.wav"
+    # the_srt_output_file = f"{main_name}.srt"
+    # the_output_file = f"{main_name}_output.mp4"
+    # the_ass_file = f'{main_name}.ass'
+    # wrapped_ass_file = f'{main_name}_wrapped.ass'
+    # whisper_model = 'whisper_models/large-v3.pt'
+    #
     # # 生成字幕
     # transcribe_and_generate_srt(the_audio_file, the_srt_output_file, language='Chinese', whisper_model=whisper_model)
     #
     # # 将 SRT 字幕转换为 ASS 字幕
     # srt_to_ass(the_srt_output_file, the_ass_file)
-
-    # 将 ASS 字幕智能换行
-    wrap_main(input_file=the_ass_file, output_file=wrapped_ass_file, max_len=12)
-
+    #
+    # # 将 ASS 字幕智能换行
+    # wrap_main(input_file=the_ass_file, output_file=wrapped_ass_file, max_len=12)
+    #
     # # 生成视频
     # generate_video(the_audio_file, the_output_file, wrapped_ass_file)
-
+    #
     # # 删除字幕文件
     # os.remove(the_srt_output_file)
     # os.remove(the_ass_file)
     # os.remove(wrapped_ass_file)
-
-
-'''
-'''
+    pass
