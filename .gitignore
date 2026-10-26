@@ -7,6 +7,7 @@ __pycache__/
 
 # 忽略虚拟环境
 venv/
+.venv/
 srt_env/
 
 # 忽略日志文件
@@ -27,3 +28,6 @@ flagged/log.csv
 whisper_models/medium.pt
 whisper_models/large-v3.pt
 app_logo.icns
+
+# Locally rebuilt, hash-verified compatibility wheels
+.wheels/

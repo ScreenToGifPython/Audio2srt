@@ -47,11 +47,15 @@ $ cd <项目目录>
 
 ### 2. 安装依赖
 
-请确保你使用的是 Python 3.8+，然后安装项目所需依赖：
+请确保你使用的是 Python 3.11 或 3.12，然后安装项目所需依赖：
 
 ```bash
-$ pip install -r requirements.txt
+$ python scripts/build_gradio_compat.py
+$ python -m pip install -r requirements.txt
+$ python -m pip check
 ```
+
+Pillow 已固定到安全修复版 13.0.0。由于 Gradio 5.5.0 的官方依赖上限不支持该版本，安装前需运行上述脚本，生成本项目维护的兼容 wheel；脚本核对官方包 SHA-256，不禁用 pip 依赖检查。详情与验证边界见 [Pillow 兼容补丁说明](docs/pillow-security.md)。
 
 ### 3. 下载模型参数文件
 
@@ -88,7 +92,7 @@ $ python start_gradio.py
 
 ## 依赖
 
-- **Python 3.8+**
+- **Python 3.11 或 3.12**
 - **PyQt5**：用于开发图形用户界面。
 - **Gradio**：网页前端工具。
 

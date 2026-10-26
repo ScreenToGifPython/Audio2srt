@@ -1,0 +1,39 @@
+name: Pillow compatibility
+
+on:
+  push:
+    branches: [main, fix/pillow-13-security]
+  pull_request:
+    paths:
+      - requirements.txt
+      - scripts/build_gradio_compat.py
+      - tests/test_pillow_compat.py
+      - .github/workflows/pillow-compat.yml
+      - '*gradio*.py'
+      - main_*.py
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    env:
+      GRADIO_ANALYTICS_ENABLED: 'False'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Build hash-verified Gradio compatibility wheel
+        run: python scripts/build_gradio_compat.py
+      - name: Install and check all project dependencies
+        run: |
+          python -m pip install -r requirements.txt pytest==8.3.4
+          python -m pip check
+      - name: Test images and four UI entrypoints
+        run: python -m pytest tests/test_pillow_compat.py -q
