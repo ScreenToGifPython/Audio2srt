@@ -103,3 +103,10 @@ $ python start_gradio.py
 ## 许可证
 
 本项目基于 MIT 许可证发布，详情请参阅 LICENSE 文件。
+
+### certifi security update
+
+certifi is pinned to 2026.10.19 for GHSA-6q48-6c7w-9gw2. See
+[the security update and deployment notes](docs/certifi-security.md).
+Existing installations must be rebuilt/reinstalled and restarted; updating this
+repository alone does not update their trust bundles.

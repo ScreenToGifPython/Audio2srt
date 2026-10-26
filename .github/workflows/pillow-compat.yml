@@ -1,4 +1,4 @@
-name: Pillow compatibility
+name: Dependency security compatibility
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
       - requirements.txt
       - scripts/build_gradio_compat.py
       - tests/test_pillow_compat.py
+      - tests/test_certifi_security.py
       - .github/workflows/pillow-compat.yml
       - '*gradio*.py'
       - main_*.py
@@ -35,5 +36,5 @@ jobs:
         run: |
           python -m pip install -r requirements.txt pytest==8.3.4
           python -m pip check
-      - name: Test images and four UI entrypoints
-        run: python -m pytest tests/test_pillow_compat.py -q
+      - name: Test trust bundle, images and four UI entrypoints
+        run: python -m pytest tests/test_pillow_compat.py tests/test_certifi_security.py -q
