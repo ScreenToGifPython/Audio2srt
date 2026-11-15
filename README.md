@@ -47,11 +47,14 @@ $ cd <项目目录>
 
 ### 2. 安装依赖
 
-请确保你使用的是 Python 3.8+，然后安装项目所需依赖：
+请确保你使用的是 Python 3.11 或 3.12，然后安装项目所需依赖：
 
 ```bash
-$ pip install -r requirements.txt
+$ python -m pip install -r requirements.txt
+$ python -m pip check
 ```
+
+Pillow 已固定到安全修复版 13.0.0，Gradio 升级为官方支持 Pillow 13 的 6.32.0。直接安装官方发行包即可。详情与验证边界见 [Pillow 安全更新说明](docs/pillow-security.md)。
 
 ### 3. 下载模型参数文件
 
@@ -88,7 +91,7 @@ $ python start_gradio.py
 
 ## 依赖
 
-- **Python 3.8+**
+- **Python 3.11 或 3.12**
 - **PyQt5**：用于开发图形用户界面。
 - **Gradio**：网页前端工具。
 
@@ -99,3 +102,10 @@ $ python start_gradio.py
 ## 许可证
 
 本项目基于 MIT 许可证发布，详情请参阅 LICENSE 文件。
+
+### certifi security update
+
+certifi is pinned to 2026.10.19 for GHSA-6q48-6c7w-9gw2. See
+[the security update and deployment notes](docs/certifi-security.md).
+Existing installations must be rebuilt/reinstalled and restarted; updating this
+repository alone does not update their trust bundles.
