@@ -1,4 +1,4 @@
-# Pillow 13 security compatibility patch
+# Pillow 13 security update
 
 ## Why this patch exists
 
@@ -15,69 +15,55 @@ application entrypoint reaches those paths.
 - [Morphology](https://github.com/advisories/GHSA-58r4-6rv3-gfh8)
 - [TIFF encoder](https://github.com/advisories/GHSA-pchr-8j38-3x4p)
 
-Gradio 5.5.0 requires Pillow `<12`. Even Gradio 6.30.0 requires Pillow `<13`.
-Simply changing the Pillow pin produces `ResolutionImpossible`. Replacing the
-UI framework would be a much larger change.
+## Official dependency support
 
-## Reproducible, project-maintained wheel
+[Gradio 6.32.0](https://pypi.org/project/gradio/6.32.0/) officially requires
+`pillow>=8.0,<14.0`, accepting the pinned Pillow 13.0.0. Gradio 5.5.0 required
+Pillow `<12`; 6.31.0 still required `<13`. This update removes the previous
+metadata-rewriting builder and local wheel entirely. All packages are installed
+from their published distributions with normal dependency resolution.
 
-Run from the repository root using Python 3.11 or 3.12:
+Gradio's upgrade also requires its matching client, Hugging Face Hub,
+SafeHTTPX, newer Starlette/FastAPI and multipart dependencies. These pins are
+updated together. Typer is raised to satisfy Hugging Face Hub. The existing
+certifi security update is retained.
+
+## Install and validate
+
+Use a fresh Python 3.11 or 3.12 virtual environment:
 
 ```sh
 python -m venv .venv
 # Activate .venv using your platform's normal command.
-python scripts/build_gradio_compat.py
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt pytest==8.3.4
 python -m pip check
+GRADIO_ANALYTICS_ENABLED=False python -m pytest tests -q
 ```
 
-The builder downloads **only the official Gradio 5.5.0 wheel**, with a fixed URL
-and SHA-256 `48ea11ae1376d9506eb295dbeb4d3ff962830a6e2d8aa9085e025cce3c04e544`.
-It fails on a different hash or unexpected metadata. An already downloaded
-official wheel can be supplied with `--source`; it receives the same hash check.
+The regression tests verify the installed versions and Gradio's original
+Pillow constraint, process benign PNG/JPEG/TIFF/GIF/WebP/BMP images through
+real Gradio and Pillow, check grayscale/alpha/CMYK conversion, iterate and
+resave multiframe PNG/GIF/TIFF/WebP, and check a grayscale-to-RGB TIFF frame
+transition. ImageIO/MoviePy image loading and saving, plus a short FFmpeg MP4
+encode/decode round trip, are also covered.
 
-The local package version is `5.5.0+audio2srt.pillow13`. The only upstream
-metadata changes are the version and the Pillow requirement, now exactly
-`13.0.0`. The dist-info directory and RECORD hashes are regenerated. All Gradio
-Python code, frontend assets and license files are retained byte-for-byte.
-Output ordering and archive timestamps are fixed for reproducible builds.
+All four web entrypoints (`start_gradio.py`, `main_audio_2_video.py`,
+`main_video_add_str.py`, `main_video_downloader.py`) are constructed with real
+Gradio components and event wiring. Each starts a real loopback HTTP server;
+tests check its home page, configuration, file upload and download. The text
+upload/preview callback also runs through Gradio's preprocessing, session state
+and output serialization. Only model/inference, translation and download
+backends are stubbed; no real model, external API,
+video download or exploit is used. Tests block Gradio's import-time HTTP
+clients, then permit only loopback/test-client requests during UI tests. The
+separate certifi tests check the actual trust bundle.
 
-The wheel is generated into `.wheels/`, not committed as a 57 MB binary.
-`requirements.txt` references that exact local wheel. No `--no-deps` installation
-or resolver override is used; pip validates the amended package's dependencies.
-The builder is required before installation in a fresh checkout.
+The CI workflow performs a clean full requirements installation, `pip check`
+and regressions on Python 3.11 and 3.12. Inspect its result for the final commit;
+an amended dependency constraint or a previous CI run is not compatibility
+proof for a new revision.
 
-This is **our compatibility patch, not an official Gradio release or upstream
-endorsement**. Maintain it until an official compatible release has been tested.
-Do not remove the local version label or silently broaden the Pillow pin.
-On future Gradio updates, re-check its dependency constraints and image APIs,
-repeat the tests, then remove this builder/local-wheel requirement if no longer
-needed. Future Pillow changes also require explicit compatibility validation.
-
-## Validation
-
-```sh
-python -m pip install pytest==8.3.4
-GRADIO_ANALYTICS_ENABLED=False python -m pytest tests/test_pillow_compat.py -q
-python -m pip check
-```
-
-The tests exercise benign PNG/JPEG/TIFF/GIF/WebP processing through real Gradio
-and Pillow, ImageIO/MoviePy image loading and saving, and all four web entrypoints:
-`start_gradio.py`, `main_audio_2_video.py`, `main_video_add_str.py` and
-`main_video_downloader.py`. Real Gradio component/event construction and ASGI
-home/config routes are checked. Only inference, translation and download
-backends/model listings are stubbed; tests never load a model, call an external
-API, download a video, or run an exploit. Import-time Gradio HTTP clients are
-blocked in tests so host proxy settings cannot cause network traffic.
-
-The builder tests verify rejection of an invalid source hash, deterministic
-output, unchanged code/assets/license bytes, dependency metadata and RECORD
-integrity. The CI workflow installs the full pinned requirements and runs these checks.
-Its result must be inspected for the specific commit; configuration alone is
-not proof that the CI run passed.
-
-These are focused compatibility checks, not full transcription, FFmpeg,
-desktop GUI, browser interaction, or production deployment verification.
-Existing unrelated dependencies are not comprehensively security-audited by
-this change. Installing this branch does not update already deployed copies.
+These are focused compatibility checks, not full transcription, desktop GUI,
+browser interaction or production deployment verification. Other dependencies
+are outside this remediation's security audit scope. Existing installations
+must be rebuilt/reinstalled and restarted to load the patched dependencies.

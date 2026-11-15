@@ -12,12 +12,12 @@ This is the minimum patched release listed by the advisory, published on
 It removes the affected emSign ECC Root CA - G3 trust anchor while retaining a
 usable CA bundle. Other, unaffected emSign roots may remain trusted. No custom
 CA-store editing or disabling of certificate/hostname verification is used.
-The existing Pillow/Gradio compatibility patch is retained unchanged in scope.
+The Pillow update uses official Gradio 6.32.0 with Pillow 13.0.0; see
+[the Pillow security notes](pillow-security.md).
 
 ## Install and validate
 
-Use the existing Python 3.11/3.12 environment setup in README. Build the Gradio
-compatibility wheel before installing requirements, then run:
+Use a clean Python 3.11/3.12 environment as described in README, then run:
 
 ```sh
 python -m pip install -r requirements.txt

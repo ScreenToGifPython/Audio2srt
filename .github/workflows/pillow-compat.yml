@@ -6,7 +6,6 @@ on:
   pull_request:
     paths:
       - requirements.txt
-      - scripts/build_gradio_compat.py
       - tests/test_pillow_compat.py
       - tests/test_certifi_security.py
       - .github/workflows/pillow-compat.yml
@@ -30,11 +29,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Build hash-verified Gradio compatibility wheel
-        run: python scripts/build_gradio_compat.py
       - name: Install and check all project dependencies
         run: |
           python -m pip install -r requirements.txt pytest==8.3.4
           python -m pip check
-      - name: Test trust bundle, images and four UI entrypoints
-        run: python -m pytest tests/test_pillow_compat.py tests/test_certifi_security.py -q
+      - name: Test trust bundle, image/video processing and four live UIs
+        run: python -m pytest tests -q

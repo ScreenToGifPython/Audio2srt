@@ -29,5 +29,5 @@ whisper_models/medium.pt
 whisper_models/large-v3.pt
 app_logo.icns
 
-# Locally rebuilt, hash-verified compatibility wheels
+# Legacy compatibility wheels are no longer used by requirements.txt
 .wheels/

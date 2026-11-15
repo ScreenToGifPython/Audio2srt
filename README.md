@@ -50,12 +50,11 @@ $ cd <项目目录>
 请确保你使用的是 Python 3.11 或 3.12，然后安装项目所需依赖：
 
 ```bash
-$ python scripts/build_gradio_compat.py
 $ python -m pip install -r requirements.txt
 $ python -m pip check
 ```
 
-Pillow 已固定到安全修复版 13.0.0。由于 Gradio 5.5.0 的官方依赖上限不支持该版本，安装前需运行上述脚本，生成本项目维护的兼容 wheel；脚本核对官方包 SHA-256，不禁用 pip 依赖检查。详情与验证边界见 [Pillow 兼容补丁说明](docs/pillow-security.md)。
+Pillow 已固定到安全修复版 13.0.0，Gradio 升级为官方支持 Pillow 13 的 6.32.0。直接安装官方发行包即可。详情与验证边界见 [Pillow 安全更新说明](docs/pillow-security.md)。
 
 ### 3. 下载模型参数文件
 
